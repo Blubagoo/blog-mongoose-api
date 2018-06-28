@@ -8,6 +8,8 @@ mongoose.Promise = global.Promise;
 
 const {DATABASE_URL, PORT} = require('./config');
 const apiRouter = require('./apiRouter');
+const databaseUrl = DATABASE_URL;
+
 
 const app = express();
 app.use(morgan('common'));
@@ -16,33 +18,42 @@ app.use('/posts', apiRouter);
 
 let server;
 
-function runServer() {
+function runServer(databaseUrl, port = PORT) {
 
 	return new Promise((resolve, reject) => {
-		server = app
-					.listen(PORT, () => {
-						console.log(`Your app is listening in on port ${PORT}`);
-						resolve(server);
-
+		mongoose.connect(databaseUrl, 
+			err => {
+					if(err) {
+					return
+				}
+				
+				server = app.listen(PORT, () => {
+					console.log(`Your app is listening in on port ${PORT}`);
+					resolve(server);
 					})
-
-					.on('error', err => {
-						reject(err);
-					});
+				
+				.on('error', err => {
+					mongoose.disconnect();
+					reject(err);
+				});
+			});
 	});
 }
 
 function closeServer() {
 
-	return new Promise((resolve, reject) => {
-		console.log('Closing Server');
-		server.close(err => {
-			if(err) {
-				reject(err);
-				return
-			}
+	return mongoose.disconnect().then(() => {
+		
+		return new Promise((resolve, reject) => {
+			console.log('Closing Server');
+			server.close(err => {
+				if(err) {
+					reject(err);
+					return
+				}
 
-			resolve();
+				resolve();
+			});
 		});
 	});
 }
