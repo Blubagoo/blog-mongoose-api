@@ -1,0 +1,32 @@
+{
+  "name": "blog-mongoose-api",
+  "version": "1.0.0",
+  "description": "blog api built with mongoose",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha-- exit",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blubagoo/blog-mongoose-api.git"
+  },
+  "keywords": [
+    "mongoose",
+    "api",
+    "blog"
+  ],
+  "author": "Jim Tisdale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Blubagoo/blog-mongoose-api/issues"
+  },
+  "homepage": "https://github.com/Blubagoo/blog-mongoose-api#readme",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "expresss": "0.0.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.1.7"
+  }
+}
