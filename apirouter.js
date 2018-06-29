@@ -7,11 +7,10 @@ const ISE = "Internal Server Error";
 
 
 router.get('/', (req,res) => {
-	Blog.find()
+	Blog
+	.find()
 	.then(blogs => {
-		res.json({
-			blogs: blogs.map(blog => blog.serialize())
-		});
+		res.json(blogs.map(blog => blogs.serialize()));
 	})
 	.catch(err => {
 		console.error(err);
@@ -66,7 +65,7 @@ router.put('/:id', (req, res) => {
 		return res.status(400).json({message: message});
 	}
 
-	const toUpdate{};
+	const toUpdate = {};
 	const updateableFields = ['title', 'content', 'author'];
 
 	updateableFields.forEach(field => {
@@ -79,7 +78,7 @@ router.put('/:id', (req, res) => {
 	Blog
 	.findByIdAndUpdate(req.params.id, {$set: toUpdate})
 	.then(blog => res.status(204).end())
-	.catch(err => res.status(500)json({message: `${ISE}`}));
+	.catch(err => res.status(500).json({message: `${ISE}`}));
 });
 
 
